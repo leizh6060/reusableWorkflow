@@ -13,8 +13,13 @@ on:
     inputs:
       environment:
         type: string
-        default: DEV
+        default: Dev
         required: true
+        type: choice
+        options:
+          - Test
+          - Staging
+          - Prod
 
 jobs:    
   prod:
