@@ -3,6 +3,17 @@ name: Main Caller Workflow
 on:
   push:
     branches: [ "main" ]
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose an environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
 
 jobs:
   call-reusable-hello:
