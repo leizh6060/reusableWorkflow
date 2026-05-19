@@ -37,5 +37,5 @@ jobs:
       environment: test
     runs-on: ubuntu-latest
     steps:
-      - name: Print value
+      - name: Print env value
         run: echo ${{ env.environment }}
