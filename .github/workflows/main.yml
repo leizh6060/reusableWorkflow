@@ -1,41 +1,35 @@
-# Source - https://stackoverflow.com/a/70452325
-# Posted by frennky, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-05-19, License - CC BY-SA 4.0
-
-name: Print environment variable
+name: Manual Deploy
 
 on:
- # push:
- #   branches:
- #     - main
- #     - development
   workflow_dispatch:
     inputs:
       environment:
-        type: string
-        default: Dev
+        description: 'Deployment environment'
         required: true
         type: choice
         options:
-          - Test
-          - Staging
-          - Prod
+          - development
+          - staging
+          - production
 
-jobs:    
-  prod:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
-    env:
-      environment: PROD
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+        default: 'latest'
+
+      dry_run:
+        description: 'Run without making changes'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Print value
-        run: echo ${{ env.environment }}
-        
-  test:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'Test' }}
-    env:
-      environment: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print env value
-        run: echo ${{ env.environment }}
+      - name: Deploy
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Version: ${{ inputs.version }}"
+          echo "Dry run: ${{ inputs.dry_run }}"
