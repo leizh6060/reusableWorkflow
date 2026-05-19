@@ -1,31 +1,36 @@
-name: Main Caller Workflow
+# Source - https://stackoverflow.com/a/70452325
+# Posted by frennky, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-05-19, License - CC BY-SA 4.0
+
+name: Print environment variable
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - development
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Choose an environment'
+        type: string
+        default: DEV
         required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
 
-jobs:
+jobs:    
   prod:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'production' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
     env:
-      environment: production
+      environment: PROD
     runs-on: ubuntu-latest
     steps:
       - name: Print value
         run: echo ${{ env.environment }}
-  call-reusable-hello:
-    # Use './' if the reusable file is in the SAME repository
-    # Use 'owner/repo/.github/workflows/reusable-hello.yml@main' for EXTERNAL repos
-    uses: ./.github/workflows/reusable-hello.yml
-    with:
-      username: "GitHub User"
+        
+  dev:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'DEV' }}
+    env:
+      environment: DEV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print value
+        run: echo ${{ env.environment }}

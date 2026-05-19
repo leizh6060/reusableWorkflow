@@ -1,0 +1,23 @@
+name: Main Caller Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose an environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  call-reusable-hello:
+    # Use './' if the reusable file is in the SAME repository
+    # Use 'owner/repo/.github/workflows/reusable-hello.yml@main' for EXTERNAL repos
+    uses: ./.github/workflows/reusable-hello.yml
+    with:
+      username: "GitHub User"
