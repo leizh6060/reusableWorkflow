@@ -1,0 +1,13 @@
+name: Main Caller Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  call-reusable-hello:
+    # Use './' if the reusable file is in the SAME repository
+    # Use 'owner/repo/.github/workflows/reusable-hello.yml@main' for EXTERNAL repos
+    uses: ./.github/workflows/reusable-hello.yml
+    with:
+      username: "GitHub User"
