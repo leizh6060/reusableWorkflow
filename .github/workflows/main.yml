@@ -31,10 +31,10 @@ jobs:
       - name: Print value
         run: echo ${{ env.environment }}
         
-  dev:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'DEV' }}
+  test:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'test' }}
     env:
-      environment: DEV
+      environment: test
     runs-on: ubuntu-latest
     steps:
       - name: Print value
