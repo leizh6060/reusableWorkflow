@@ -32,9 +32,9 @@ jobs:
         run: echo ${{ env.environment }}
         
   test:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'test' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'Test' }}
     env:
-      environment: test
+      environment: Test
     runs-on: ubuntu-latest
     steps:
       - name: Print env value
