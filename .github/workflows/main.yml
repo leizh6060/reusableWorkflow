@@ -1,8 +1,8 @@
 name: Main Caller Workflow
 
 on:
-  #push:
-  #  branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   workflow_dispatch:
     inputs:
       environment:
@@ -15,6 +15,14 @@ on:
           - production
 
 jobs:
+  prod:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'production' }}
+    env:
+      environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print value
+        run: echo ${{ env.environment }}
   call-reusable-hello:
     # Use './' if the reusable file is in the SAME repository
     # Use 'owner/repo/.github/workflows/reusable-hello.yml@main' for EXTERNAL repos
